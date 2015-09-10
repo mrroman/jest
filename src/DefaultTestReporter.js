@@ -111,6 +111,9 @@ function (config, aggregatedResults) {
   var numFailedTests = aggregatedResults.numFailedTests;
   var numPassedTests = aggregatedResults.numPassedTests;
   var numTotalTests = aggregatedResults.numTotalTests;
+  var numPassedTestCases = aggregatedResults.numPassedTestCases;
+  var numFailedTestCases = aggregatedResults.numFailedTestCases;
+  var numTotalTestCases = numPassedTestCases + numFailedTestCases;
   var runTime = (Date.now() - aggregatedResults.startTime) / 1000;
 
   if (numTotalTests === 0) {
@@ -136,8 +139,23 @@ function (config, aggregatedResults) {
     colors.GREEN + colors.BOLD
   );
   results += ' (' + numTotalTests + ' total)';
-
   this.log(results);
+
+  var detailedResults = '';
+  if (numFailedTestCases) {
+    detailedResults += this._formatMsg(
+      numFailedTestCases + ' test case' + (numFailedTestCases === 1 ? '' : 's') + ' failed',
+      colors.RED + colors.BOLD
+    );
+    detailedResults += ', ';
+  }
+  detailedResults += this._formatMsg(
+    numPassedTestCases + ' test case' + (numPassedTestCases === 1 ? '' : 's') + ' passed',
+    colors.GREEN + colors.BOLD
+  );
+  detailedResults += ' (' + numTotalTestCases + ' total)';
+  this.log(detailedResults);
+
   this.log('Run time: ' + runTime + 's');
 };
 

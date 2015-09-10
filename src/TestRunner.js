@@ -423,6 +423,8 @@ TestRunner.prototype.runTests = function(testPaths, reporter) {
     numTotalTests: testPaths.length,
     numPassedTests: 0,
     numFailedTests: 0,
+    numPassedTestCases: 0,
+    numFailedTestCases: 0,
     testResults: [],
     postSuiteHeaders: []
   };
@@ -436,6 +438,10 @@ TestRunner.prototype.runTests = function(testPaths, reporter) {
     } else {
       aggregatedResults.numPassedTests++;
     }
+
+    aggregatedResults.numPassedTestCases += testResult.numPassingTests;
+    aggregatedResults.numFailedTestCases += testResult.numFailingTests;
+
     reporter.onTestResult && reporter.onTestResult(
       config,
       testResult,
