@@ -159,7 +159,9 @@ function makeComponent(metadata) {
         functionName.startsWith(boundFunctionPrefix);
       var bindCall = '';
       if (isBound) {
-        functionName = functionName.substring(boundFunctionPrefix.length);
+        while (functionName.startsWith(boundFunctionPrefix)) {
+          functionName = functionName.substring(boundFunctionPrefix.length);
+        }
         // Call bind() just to alter the function name.
         bindCall = '.bind(null)';
       }
